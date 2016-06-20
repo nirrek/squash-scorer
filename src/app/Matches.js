@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import * as colors from '../utils/colors.js';
 import map from 'lodash/map';
+import orderBy from 'lodash/orderBy';
 import MatchCard from './MatchCard.js';
 import FAB from 'material-ui/FloatingActionButton';
 import Add from 'material-ui/svg-icons/content/add';
@@ -9,6 +10,7 @@ import InlineSVG from 'svg-inline-react';
 export default class Matches extends Component {
   render() {
     const { matches } = this.props;
+    const orderedMatches = orderBy(matches, ['creationTimestamp'], ['desc']);
 
     return (
       <div>
@@ -17,7 +19,9 @@ export default class Matches extends Component {
           <div style={styles.headerTitle}>SquashScorer</div>
         </div>
         <div style={styles.main}>
-          {map(matches, match => <MatchCard key={match.id} match={match} />)}
+          {map(orderedMatches, match => (
+            <MatchCard key={match.id} match={match} />
+          ))}
         </div>
         <FAB
           style={styles.fab}
