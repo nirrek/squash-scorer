@@ -53,15 +53,15 @@ const styles = {
   },
   main: {
     padding: 10,
-    paddingTop: 49 + 10, // height of header
+    paddingTop: 55 + 10, // height of header
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
   },
   fab: {
     position: 'fixed',
-    right: 30,
-    bottom: 30,
+    right: 15,
+    bottom: 18,
     zIndex: 1,
   },
 };

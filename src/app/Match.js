@@ -20,7 +20,7 @@ export default class Match extends Component {
         <AppBar>
           <AppBarActions>
             <IconButton
-              style={{ height: 38, padding: 0 }}
+              style={styles.backButton}
               onClick={this.handleClickBack}>
               <ArrowBack />
             </IconButton>
@@ -40,7 +40,8 @@ export default class Match extends Component {
               <RaisedButton
                 label="Mark Match As Complete"
                 primary
-                onClick={() => this.toggleComplete(true)} />
+                onClick={() => this.toggleComplete(true)}
+                style={styles.markCompleteButton} />
             )}
           </div>
         </div>
@@ -157,6 +158,9 @@ const styles = {
   playerScore: {
     fontSize: 50,
   },
+  markCompleteButton: {
+    marginTop: 15,
+  },
   completeMatchBox: {
     display: 'flex',
     alignItems: 'center',
@@ -167,5 +171,10 @@ const styles = {
   matchCompleteText: {
     color: colors.green,
     fontWeight: 'bold',
-  }
+    margin: '8px 0',
+  },
+  backButton: {
+    height: 38,
+    padding: 0,
+  },
 }
