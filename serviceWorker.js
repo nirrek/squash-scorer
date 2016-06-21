@@ -1,4 +1,4 @@
-const currentCacheName = 'sw-cache-v1';
+const currentCacheName = 'sw-cache-v2';
 
 const precacheResources = [
   '/',
