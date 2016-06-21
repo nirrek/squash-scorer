@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import { StyleSheet, css } from 'aphrodite';
 
 export default class AppBar extends Component {
   render() {
     return (
-      <div style={styles.header}>
+      <div className={css(styles.header)}>
         {this.props.children}
       </div>
     );
@@ -11,18 +12,18 @@ export default class AppBar extends Component {
 }
 
 export const AppBarTitle = ({ children }) => (
-  <div style={styles.headerTitle}>
+  <div className={css(styles.headerTitle)}>
     {children}
   </div>
 );
 
 export const AppBarActions = ({ children }) => (
-  <div style={styles.headerAction}>
+  <div className={css(styles.headerAction)}>
     {children}
   </div>
 );
 
-const styles = {
+const styles = StyleSheet.create({
   header: {
     display: 'flex',
     alignItems: 'center',
@@ -40,4 +41,4 @@ const styles = {
   headerAction: {
     padding: '0 10px',
   },
-};
+});

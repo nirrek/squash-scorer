@@ -6,6 +6,8 @@ import MatchCard from './MatchCard.js';
 import FAB from 'material-ui/FloatingActionButton';
 import Add from 'material-ui/svg-icons/content/add';
 import InlineSVG from 'svg-inline-react';
+import { StyleSheet, css } from 'aphrodite';
+import logo from './logo.svg';
 
 export default class Matches extends Component {
   render() {
@@ -14,17 +16,17 @@ export default class Matches extends Component {
 
     return (
       <div>
-        <div style={styles.header}>
-          <InlineSVG style={{ width: 25, height: 25 }} src={require('./logo.svg')} />
-          <div style={styles.headerTitle}>SquashScorer</div>
+        <div className={css(styles.header)}>
+          <InlineSVG style={{ width: 25, height: 25 }} src={logo} />
+          <div className={css(styles.headerTitle)}>SquashScorer</div>
         </div>
-        <div style={styles.main}>
+        <div className={css(styles.main)}>
           {map(orderedMatches, match => (
             <MatchCard key={match.id} match={match} />
           ))}
         </div>
         <FAB
-          style={styles.fab}
+          className={css(styles.fab)}
           onClick={() => this.context.router.push('/match/new')}>
           <Add />
         </FAB>
@@ -37,7 +39,7 @@ Matches.contextTypes = {
   router: PropTypes.object,
 };
 
-const styles = {
+const styles = StyleSheet.create({
   header: {
     backgroundColor: colors.green,
     padding: '15px 15px',
@@ -68,4 +70,4 @@ const styles = {
     bottom: 18,
     zIndex: 1,
   },
-};
+});

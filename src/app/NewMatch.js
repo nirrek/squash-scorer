@@ -8,6 +8,7 @@ import map from 'lodash/map';
 import identity from 'lodash/identity';
 import Button from './Button.js';
 import AppBar, { AppBarActions, AppBarTitle } from './AppBar.js';
+import { StyleSheet, css } from 'aphrodite';
 
 export default class NewMatch extends Component {
   state = {
@@ -29,7 +30,7 @@ export default class NewMatch extends Component {
         <AppBar>
           <AppBarActions>
             <IconButton
-              style={{ height: 38, padding: 0 }}
+              className={css(styles.closeIconButton)}
               onClick={this.handleClose}>
               <Close color='#333' />
             </IconButton>
@@ -40,19 +41,19 @@ export default class NewMatch extends Component {
           </AppBarActions>
         </AppBar>
 
-        <div style={styles.body}>
+        <div className={css(styles.body)}>
           <TextField
             floatingLabelText="Name of player 1"
             value={playerName1.value}
             errorText={playerName1.errorText}
-            style={styles.textField}
+            className={css(styles.textField)}
             onChange={event => this.updateField('playerName1', event.target.value)}
             onBlur={() => this.validateField('playerName1')} />
           <TextField
             floatingLabelText="Name of player 2"
             value={playerName2.value}
             errorText={playerName2.errorText}
-            style={styles.textField}
+            className={css(styles.textField)}
             onChange={event => this.updateField('playerName2', event.target.value)}
             onBlur={() => this.validateField('playerName2')} />
 
@@ -115,11 +116,16 @@ NewMatch.contextTypes = {
   router: PropTypes.object,
 };
 
-const styles = {
+
+const styles = StyleSheet.create({
   body: {
     padding: 20,
   },
   textField: {
     width: '100%',
-  }
-};
+  },
+  closeIconButton: {
+    height: 38,
+    padding: 0,
+  },
+});

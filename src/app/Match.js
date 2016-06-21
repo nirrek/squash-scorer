@@ -9,6 +9,7 @@ import * as colors from '../utils/colors.js';
 import { darken } from 'material-ui/utils/colorManipulator';
 import AppBar, { AppBarActions, AppBarTitle } from './AppBar.js';
 import IconButton from 'material-ui/IconButton';
+import { StyleSheet, css } from 'aphrodite';
 
 export default class Match extends Component {
   render() {
@@ -20,20 +21,20 @@ export default class Match extends Component {
         <AppBar>
           <AppBarActions>
             <IconButton
-              style={styles.backButton}
+              className={css(styles.backButton)}
               onClick={this.handleClickBack}>
               <ArrowBack />
             </IconButton>
           </AppBarActions>
           <AppBarTitle>{player0.name} vs {player1.name}</AppBarTitle>
         </AppBar>
-        <div style={styles.box}>
+        <div className={css(styles.box)}>
           {this.renderScorer(player0, 0)}
           {this.renderScorer(player1, 1)}
-          <div style={styles.completeMatchBox}>
+          <div className={css(styles.completeMatchBox)}>
             {match.isComplete ? (
               <div>
-                <h2 style={styles.matchCompleteText}>Match complete</h2>
+                <h2 className={css(styles.matchCompleteText)}>Match complete</h2>
                 <FlatButton label="Re-enable Editing" onClick={() => this.toggleComplete(false)} />
               </div>
             ) : (
@@ -41,7 +42,7 @@ export default class Match extends Component {
                 label="Mark Match As Complete"
                 primary
                 onClick={() => this.toggleComplete(true)}
-                style={styles.markCompleteButton} />
+                className={css(styles.markCompleteButton)} />
             )}
           </div>
         </div>
@@ -76,33 +77,32 @@ export default class Match extends Component {
 
   renderScorer = (player, playerIdx) => {
     const { isComplete, players } = this.getMatch();
-    const scoreDisplayStyle = {
-      ...styles.scoreDisplay,
-      ...this.isWinner(playerIdx) ? styles.scoreDisplayWinner : {},
-    };
+    const scoreDisplayStyle = [
+      styles.scoreDisplay,
+      this.isWinner(playerIdx) && styles.scoreDisplayWinner,
+    ];
 
     return (
-      <Card style={styles.scorerCard}>
-        <div style={styles.scorer}>
+      <Card className={css(styles.scorerCard)}>
+        <div className={css(styles.scorer)}>
           {!isComplete && (
             <FlatButton
               disabled={player.score === 0 || isComplete}
               onClick={this.changeScore(-1, playerIdx)}
               icon={<Remove />}
-              style={styles.scoreChangerBtn} />
+              className={css(styles.scoreChangerBtn)} />
           )}
 
-
-          <div style={scoreDisplayStyle}>
-            <div style={styles.playerName}>{player.name}</div>
-            <div style={styles.playerScore}>{player.score}</div>
+          <div className={css(...scoreDisplayStyle)}>
+            <div className={css(styles.playerName)}>{player.name}</div>
+            <div className={css(styles.playerScore)}>{player.score}</div>
           </div>
           {!isComplete && (
             <FlatButton
               disabled={isComplete}
               onClick={this.changeScore(+1, playerIdx)}
               icon={<Add />}
-              style={styles.scoreChangerBtn} />
+              className={css(styles.scoreChangerBtn)} />
           )}
         </div>
       </Card>
@@ -114,7 +114,7 @@ Match.contextTypes = {
   router: PropTypes.object,
 };
 
-const styles = {
+const styles = StyleSheet.create({
   box: {
     padding: 20,
     height: '100%',
@@ -177,4 +177,4 @@ const styles = {
     height: 38,
     padding: 0,
   },
-}
+});

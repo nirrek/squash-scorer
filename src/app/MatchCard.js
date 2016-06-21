@@ -2,47 +2,50 @@ import React, { Component, PropTypes } from 'react';
 import Card from './Card.js';
 import prettyPrintDate from '../utils/datePrettyPrinter.js';
 import * as colors from '../utils/colors.js';
+import { StyleSheet, css } from 'aphrodite';
 
 export default class MatchCard extends Component {
   renderPlayer(idx, player, winnerIdx) {
     const isWinner = idx === winnerIdx;
-    const isOnLeft = (idx === 0);
+    const isOnLeft = idx === 0;
 
-    const boxStyle = isWinner ?
-      {...styles.player, backgroundColor: colors.green} :
-      styles.player;
-    const nameStyle = isWinner ?
-      {...styles.playerName, color: '#fff'} :
-      styles.playerName;
-    const scoreStyle = isWinner ?
-      {...styles.playerScore, color: '#fff'} :
-      styles.playerScore;
-    const wedgeStyle = {
-      ...styles.wedge,
-      left: isOnLeft ? 'auto' : -15,
-      right: isOnLeft ? -15 : 'auto',
-    };
-    const wedgeBarLeftStyle = {
-      ...styles.wedgeBar,
-      backgroundColor: isOnLeft ? colors.green : '#fff',
-    };
-    const wedgeBarRightStyle = {
-      ...styles.wedgeBar,
-      backgroundColor: isOnLeft ? '#fff' : colors.green,
-    };
+    const boxStyles = [
+      styles.player,
+      isWinner && styles.greenBg,
+    ];
+    const nameStyles = [
+      styles.playerName,
+      isWinner && styles.whiteText,
+    ];
+    const scoreStyles = [
+      styles.playerScore,
+      isWinner && styles.whiteText,
+    ];
+    const wedgeStyles = [
+      styles.wedge,
+      isOnLeft ? styles.wedgeOnLeft : styles.wedgeOnRight,
+    ];
+    const wedgeBarLeftStyles = [
+      styles.wedgeBar,
+      isOnLeft && styles.greenBg,
+    ];
+    const wedgeBarRightStyles = [
+      styles.wedgeBar,
+      !isOnLeft && styles.greenBg,
+    ];
 
     return (
-      <div key={idx} style={boxStyle}>
-        <div style={nameStyle}>
+      <div key={idx} className={css(...boxStyles)}>
+        <div className={css(...nameStyles)}>
           {player.name}
         </div>
-        <div style={scoreStyle}>
+        <div className={css(...scoreStyles)}>
           {player.score}
         </div>
         {isWinner && (
-          <div style={wedgeStyle}>
-            <div style={wedgeBarLeftStyle} />
-            <div style={wedgeBarRightStyle} />
+          <div className={css(...wedgeStyles)}>
+            <div className={css(...wedgeBarLeftStyles)} />
+            <div className={css(...wedgeBarRightStyles)} />
           </div>
         )}
       </div>
@@ -62,18 +65,18 @@ export default class MatchCard extends Component {
     }
 
     return (
-      <div onClick={this.handleClick} key={match.id} style={styles.card}>
+      <div onClick={this.handleClick} key={match.id} className={css(styles.card)}>
         <Card>
-          <div style={styles.playersBox}>
+          <div className={css(styles.playersBox)}>
             {match.players.map((player, idx) =>
               this.renderPlayer(idx, player, winnerIdx))}
-            <div style={styles.cover} />
+            <div className={css(styles.cover)} />
           </div>
-          <div style={styles.footer}>
+          <div className={css(styles.footer)}>
             <div>
               {match.isComplete ? 'Complete' : 'In Progress'}
             </div>
-            <div style={styles.time}>
+            <div className={css(styles.time)}>
               {prettyPrintDate(new Date(match.creationTimestamp))}
             </div>
           </div>
@@ -87,34 +90,13 @@ MatchCard.contextTypes = {
   router: PropTypes.object
 };
 
-const styles = {
+const styles = StyleSheet.create({
   card: {
     marginBottom: 20,
-    width: '100%'
-  },
-  footer: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '10px 15px',
-    color: '#999',
-  },
-  time: {
-    fontSize: 14,
-  },
-  playersBox: {
-    display: 'flex',
-    overflow: 'hidden',
-    position: 'relative',
-  },
-  cover: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
     width: '100%',
-    height: 1,
-    backgroundColor: 'rgba(0,0,0, .15)',
-    zIndex: 1,
+    ':hover': {
+      cursor: 'pointer',
+    }
   },
   player: {
     width: '50%',
@@ -143,8 +125,47 @@ const styles = {
     transform: 'rotate(11deg)',
     display: 'flex',
   },
+  wedgeOnLeft: {
+    left: 'auto',
+    right: -15,
+  },
+  wedgeOnRight: {
+    left: -15,
+    right: 'auto',
+  },
   wedgeBar: {
     height: '100%',
     width: 15,
+    backgroundColor: '#fff',
   },
-};
+  footer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '10px 15px',
+    color: '#999',
+  },
+  time: {
+    fontSize: 14,
+  },
+  playersBox: {
+    display: 'flex',
+    overflow: 'hidden',
+    position: 'relative',
+  },
+  cover: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    width: '100%',
+    height: 1,
+    backgroundColor: 'rgba(0,0,0, .15)',
+    zIndex: 1,
+  },
+  whiteText: {
+    color: '#fff',
+  },
+  'greenBg': {
+    backgroundColor: colors.green,
+  },
+});
